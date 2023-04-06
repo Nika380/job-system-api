@@ -56,7 +56,6 @@ public class User {
     }
 
     @ManyToMany()
-    @JsonIgnore
     @JoinTable(
             name = "companies_and_users",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -72,5 +71,15 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "permission_name")
     )
     private List<Permission> permissions;
+
+    @ManyToMany()
+    @JsonIgnore
+    @JoinTable(
+            name = "companies_and_users_2",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "company_id")
+
+    )
+    private List<Company> companyList;
 
 }
