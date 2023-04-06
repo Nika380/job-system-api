@@ -1,5 +1,6 @@
 package com.example.for_final.controller;
 
+import com.example.for_final.dto.UserToAddInCompany;
 import com.example.for_final.entity.Company;
 import com.example.for_final.security.SecUser;
 import com.example.for_final.service.company.CompanyService;
@@ -27,5 +28,10 @@ public class CompanyController {
         company.setCreatedBy(secUser.getUsername());
         company.setUpdatedBy(secUser.getUsername());
         return companyService.addCompany(company);
+    }
+
+    @PutMapping("/add-user-in-company")
+    public Company addUser(@RequestBody UserToAddInCompany user) {
+        return companyService.addUsersInCompany(user);
     }
 }

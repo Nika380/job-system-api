@@ -53,6 +53,9 @@ public class Company {
 
 
     @ManyToMany(mappedBy = "companies")
+    @JsonIgnore
     private List<User> users;
+    @ManyToMany(mappedBy = "companyList")
+    private List<User> usersList;
 
 }

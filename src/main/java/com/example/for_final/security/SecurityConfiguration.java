@@ -42,8 +42,9 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                .csrf().disable()
                 .authorizeRequests()
-//                .antMatchers("/users/register").permitAll()
+                .antMatchers("/users/register").permitAll()
                 .antMatchers("/jobs", "/jobs/**").permitAll()
                 .anyRequest().authenticated()
                 .and()

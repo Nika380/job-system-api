@@ -36,8 +36,17 @@ public class JobController {
     @PreAuthorize("hasAuthority('COMPANY')")
     public Job addJob(@RequestBody Job job, @AuthenticationPrincipal SecUser secUser) {
 
+
+
         job.setCreatedBy(secUser.getUsername());
         job.setUpdatedBy(secUser.getUsername());
         return jobService.addJob(job);
     }
+
+    @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasAnyAuthority('COMPANY')")
+    public void deleteJob(@PathVariable int id, @AuthenticationPrincipal SecUser secUser) {
+        jobService.deleteJob(id, secUser);
+    }
+
 }
