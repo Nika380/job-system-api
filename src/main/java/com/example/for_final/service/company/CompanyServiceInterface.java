@@ -11,4 +11,6 @@ public interface CompanyServiceInterface {
     Company addCompany(Company company);
 
     Company addUsersInCompany(UserToAddInCompany user);
+
+    List<User> getCompanyUsers(String companyName);
 }

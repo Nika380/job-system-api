@@ -45,8 +45,8 @@ public class JobController {
 
     @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasAnyAuthority('COMPANY')")
-    public void deleteJob(@PathVariable int id, @AuthenticationPrincipal SecUser secUser) {
-        jobService.deleteJob(id, secUser);
+    public String deleteJob(@PathVariable int id, @AuthenticationPrincipal SecUser secUser) {
+        return jobService.deleteJob(id, secUser);
     }
 
 }

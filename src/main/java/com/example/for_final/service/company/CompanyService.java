@@ -36,12 +36,20 @@ public class CompanyService implements CompanyServiceInterface {
         var userToAdd = userRepo.findByEmail(user.getEmail())
                 .orElseThrow(() -> new NotFoundException("User Not Found"));
 
-        var company = companyRepo.findCompanyByCompanyName(user.getCompanyName());
+        var company = companyRepo.findCompanyByCompanyName(user.getCompanyName())
+                .orElseThrow(() -> new NotFoundException("Company Not Found"));
         List<User> users = new ArrayList<>(company.getUsers());
         users.add(userToAdd);
 
         company.setUsers(users);
         return companyRepo.save(company);
+    }
+
+    @Override
+    public List<User> getCompanyUsers(String companyName) {
+        var company = companyRepo.findCompanyByCompanyName(companyName)
+                .orElseThrow(() -> new NotFoundException("Company Not Found"));
+        return company.getUsers();
     }
 
 }

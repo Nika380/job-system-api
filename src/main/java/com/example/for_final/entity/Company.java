@@ -52,10 +52,15 @@ public class Company {
     private List<Job> jobs;
 
 
-    @ManyToMany(mappedBy = "companies")
+    @ManyToMany()
     @JsonIgnore
+    @JoinTable(
+            name = "companies_and_users",
+            joinColumns = @JoinColumn(name = "company_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+
+    )
     private List<User> users;
-    @ManyToMany(mappedBy = "companyList")
-    private List<User> usersList;
+
 
 }

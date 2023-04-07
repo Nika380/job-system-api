@@ -26,12 +26,12 @@ public class JobService implements JobServiceInterface{
     public Page<Job> getListOfJobs(SearchParams params) {
         return jobRepo.findAll((root, query, cb) -> {
             Predicate predicate = cb.conjunction();
-//            if(params.getIndustry() != null) {
-//                predicate = cb.and(predicate, cb.equal(root.get(Job_.INDUSTRY), params.getIndustry()));
-//            }
-//            if(params.getJobType() != null) {
-//                predicate = cb.and(predicate, cb.equal(root.get(Job_.JOB_TYPE), params.getJobType()));
-//            }
+            if(params.getIndustry() != null) {
+                predicate = cb.and(predicate, cb.equal(root.get("industry"), params.getIndustry()));
+            }
+            if(params.getJobType() != null) {
+                predicate = cb.and(predicate, cb.equal(root.get("jobType"), params.getJobType()));
+            }
 
 
             return predicate;
@@ -41,14 +41,12 @@ public class JobService implements JobServiceInterface{
     @Override
     public Job addJob(Job job) {
 
-//        var user = userRepo.findByEmail(secUser.getUsername()).
-//                orElseThrow(() -> new NotFoundException("User Not Found"));
-//        var companyName = user.getCompanies();
-        job.setCompany(companyRepo.findCompanyByCompanyName(job.getCompanyName()));
+        job.setCompany(companyRepo.findCompanyByCompanyName(job.getCompanyName()).
+                orElseThrow(() -> new NotFoundException("Company Not Found")));
         return jobRepo.save(job);
     }
     @Override
-    public void deleteJob(int id, SecUser secUser) {
+    public String deleteJob(int id, SecUser secUser) {
 
         var user = userRepo.findByEmail(secUser.getUsername())
                 .orElseThrow(() -> new NotFoundException("User Not Found"));
@@ -56,23 +54,16 @@ public class JobService implements JobServiceInterface{
         var job = jobRepo.findById(id)
                 .orElseThrow(() -> new NotFoundException("Job Not Found"));
 
-        System.out.printf("User: %s%n", user.getCompanies().toString());
 
-        System.out.printf("Job Company Name: %s%n", job.getCompanyName());
+        boolean isOwner = user.getCompanies().stream()
+                .anyMatch(company -> company.getCompanyName().equals(job.getCompanyName()));
 
-        boolean isOwner;
+        if(isOwner) {
+            jobRepo.delete(job);
+            return "Job Deleted";
+        } else {
+            return "Job Not Deleted";
+        }
 
-//        user.getCompanies().stream().map(company -> {
-//            if(job.getCompanyName() == company.getCompanyName()){
-//                isOwner.set(true);
-//            }
-//            return false;
-//        });
-
-//        System.out.printf(String.valueOf(isOwner));
-
-//        if(isOwner){
-//            jobRepo.delete(jobRepo.findById(id).orElseThrow(() -> new NotFoundException("Job Not Found")));
-//        }
     }
 }

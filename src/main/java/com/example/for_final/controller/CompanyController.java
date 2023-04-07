@@ -2,6 +2,7 @@ package com.example.for_final.controller;
 
 import com.example.for_final.dto.UserToAddInCompany;
 import com.example.for_final.entity.Company;
+import com.example.for_final.entity.User;
 import com.example.for_final.security.SecUser;
 import com.example.for_final.service.company.CompanyService;
 import lombok.RequiredArgsConstructor;
@@ -33,5 +34,10 @@ public class CompanyController {
     @PutMapping("/add-user-in-company")
     public Company addUser(@RequestBody UserToAddInCompany user) {
         return companyService.addUsersInCompany(user);
+    }
+
+    @GetMapping("/{companyName}/users")
+    public List<User> getCompanyUsers(@PathVariable String companyName) {
+        return companyService.getCompanyUsers(companyName);
     }
 }

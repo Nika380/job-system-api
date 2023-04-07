@@ -55,13 +55,7 @@ public class User {
         updatedAt = LocalDateTime.now();
     }
 
-    @ManyToMany()
-    @JoinTable(
-            name = "companies_and_users",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "company_id")
-
-    )
+    @ManyToMany(mappedBy = "users")
     private List<Company> companies;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -72,14 +66,6 @@ public class User {
     )
     private List<Permission> permissions;
 
-    @ManyToMany()
-    @JsonIgnore
-    @JoinTable(
-            name = "companies_and_users_2",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "company_id")
 
-    )
-    private List<Company> companyList;
 
 }

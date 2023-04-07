@@ -10,5 +10,5 @@ public interface JobServiceInterface {
     Job addJob(Job job);
 
 
-    void deleteJob(int id, SecUser secUser);
+    String deleteJob(int id, SecUser secUser);
 }
